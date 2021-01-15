@@ -9,9 +9,9 @@ namespace AsurityProjectBackend.Models
         public string Email { get; set; }
         public string StreetAddress { get; set; }
         public string City { get; set; }
-        //public string State { get; set; } //not sure how to best represent the dropdowns, maybe a state enum or class
+        public string State { get; set; } //stores abbreviation
         public string Zipcode { get; set; }
-        //public string ContactFrequency { get; set; }
-        //public string ContactMethod { get; set; }
+        public ContactFrequency ContactFrequency { get; set; }
+        public ContactMethod ContactMethod { get; set; }
     }
 }

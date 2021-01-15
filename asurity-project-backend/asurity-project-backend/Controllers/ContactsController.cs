@@ -8,31 +8,39 @@ using Microsoft.EntityFrameworkCore;
 using AsurityProjectBackend.Models;
 using AsurityProjectBackend.Repository;
 
-namespace asurity_project_backend.Controllers
+namespace asurityProjectBackend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/contacts")]
     [ApiController]
-    public class ContactController : ControllerBase
+    public class ContactsController : ControllerBase
     {
-        private readonly ContactContext _context;
+        private readonly ContactContext _contactContext;
 
-        public ContactController(ContactContext context)
+        public ContactsController(ContactContext contactContext)
         {
-            _context = context;
+            if (contactContext == null)
+            {
+                throw new ArgumentNullException("contact context");
+            }
+            //maybe add logging if there is time
+            _contactContext = contactContext;
         }
 
-        // GET: api/Contact
+        // GET: api/Contacts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
         {
-            return await _context.Contacts.ToListAsync();
+            //beef this up so that we return the state object based off of the abbreviation 
+            return await _contactContext.Contacts.ToListAsync();
         }
 
-        // GET: api/Contact/5
+        // GET: api/Contacts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Contact>> GetContact(Guid id)
         {
-            var contact = await _context.Contacts.FindAsync(id);
+
+            //beef this up so that we return the state object based off of the abbreviation 
+            var contact = await _contactContext.Contacts.FindAsync(id);
 
             if (contact == null)
             {
@@ -42,7 +50,7 @@ namespace asurity_project_backend.Controllers
             return contact;
         }
 
-        // PUT: api/Contact/5
+        // PUT: api/Contacts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutContact(Guid id, Contact contact)
@@ -52,11 +60,11 @@ namespace asurity_project_backend.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(contact).State = EntityState.Modified;
+            _contactContext.Entry(contact).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _contactContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,36 +81,36 @@ namespace asurity_project_backend.Controllers
             return NoContent();
         }
 
-        // POST: api/Contact
+        // POST: api/Contacts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Contact>> PostContact(Contact contact)
         {
-            _context.Contacts.Add(contact);
-            await _context.SaveChangesAsync();
+            _contactContext.Contacts.Add(contact);
+            await _contactContext.SaveChangesAsync();
 
-            return CreatedAtAction("GetContact", new { id = contact.Id }, contact);
+            return CreatedAtAction(nameof(GetContact), new { id = contact.Id }, contact);
         }
 
-        // DELETE: api/Contact/5
+        // DELETE: api/Contacts/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContact(Guid id)
         {
-            var contact = await _context.Contacts.FindAsync(id);
+            var contact = await _contactContext.Contacts.FindAsync(id);
             if (contact == null)
             {
                 return NotFound();
             }
 
-            _context.Contacts.Remove(contact);
-            await _context.SaveChangesAsync();
+            _contactContext.Contacts.Remove(contact);
+            await _contactContext.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool ContactExists(Guid id)
         {
-            return _context.Contacts.Any(e => e.Id == id);
+            return _contactContext.Contacts.Any(e => e.Id == id);
         }
     }
 }

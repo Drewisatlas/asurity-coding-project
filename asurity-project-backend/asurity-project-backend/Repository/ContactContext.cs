@@ -1,5 +1,4 @@
-﻿using System;
-using AsurityProjectBackend.Models;
+﻿using AsurityProjectBackend.Models;
 using Microsoft.EntityFrameworkCore;
 
 
