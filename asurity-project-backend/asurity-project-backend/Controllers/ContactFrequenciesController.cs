@@ -14,25 +14,25 @@ namespace asurityProjectBackend.Controllers
     [ApiController]
     public class ContactFrequenciesController : ControllerBase
     {
-        private readonly ContactFrequencyContext _contactFrequencyContext;
+        private readonly ApplicationDbContext _applicationDbContext;
 
-        public ContactFrequenciesController(ContactFrequencyContext contactFrequencyContext)
+        public ContactFrequenciesController(ApplicationDbContext applicationDbContext)
         {
-            _contactFrequencyContext = contactFrequencyContext;
+            _applicationDbContext = applicationDbContext;
         }
 
         // GET: api/ContactFrequencies
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ContactFrequency>>> GetContactFrequencies()
         {
-            return await _contactFrequencyContext.ContactFrequencies.ToListAsync();
+            return await _applicationDbContext.ContactFrequencies.ToListAsync();
         }
 
         // GET: api/ContactFrequencies/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ContactFrequency>> GetContactFrequency(long id)
         {
-            var contactFrequency = await _contactFrequencyContext.ContactFrequencies.FindAsync(id);
+            var contactFrequency = await _applicationDbContext.ContactFrequencies.FindAsync(id);
 
             if (contactFrequency == null)
             {

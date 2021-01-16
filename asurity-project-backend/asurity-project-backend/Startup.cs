@@ -22,11 +22,8 @@ namespace AsurityProjectBackend
         public void ConfigureServices(IServiceCollection services)
 
         {
-            //In memory Db Contexts
-            services.AddDbContext<StateContext>(opt => opt.UseInMemoryDatabase("States"));
-            services.AddDbContext<ContactMethodContext>(opt => opt.UseInMemoryDatabase("ContactMethods"));
-            services.AddDbContext<ContactFrequencyContext>(opt => opt.UseInMemoryDatabase("ContactFrequencies"));
-            services.AddDbContext<ContactContext>(opt => opt.UseInMemoryDatabase("Contacts"));
+            //In memory Db Context
+            services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("ApplicationDbContext"));
 
             services.AddControllers();
         }

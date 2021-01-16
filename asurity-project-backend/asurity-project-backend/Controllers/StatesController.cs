@@ -14,25 +14,25 @@ namespace asurityProjectBackend.Controllers
     [ApiController]
     public class StatesController : ControllerBase
     {
-        private readonly StateContext _context;
+        private readonly ApplicationDbContext _applicationDbContext;
 
-        public StatesController(StateContext context)
+        public StatesController(ApplicationDbContext applicationDbContext)
         {
-            _context = context;
+            _applicationDbContext = applicationDbContext;
         }
 
         // GET: api/States
         [HttpGet]
         public async Task<ActionResult<IEnumerable<State>>> GetStates()
         {
-            return await _context.States.ToListAsync();
+            return await _applicationDbContext.States.ToListAsync();
         }
 
         // GET: api/States/5
         [HttpGet("{id}")]
         public async Task<ActionResult<State>> GetState(long id)
         {
-            var state = await _context.States.FindAsync(id);
+            var state = await _applicationDbContext.States.FindAsync(id);
 
             if (state == null)
             {
@@ -41,68 +41,6 @@ namespace asurityProjectBackend.Controllers
 
             return state;
         }
-
-        // PUT: api/States/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutState(long id, State state)
-        {
-            if (id != state.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(state).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StateExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/States
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<State>> PostState(State state)
-        {
-            _context.States.Add(state);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetState", new { id = state.Id }, state);
-        }
-
-        // DELETE: api/States/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteState(long id)
-        {
-            var state = await _context.States.FindAsync(id);
-            if (state == null)
-            {
-                return NotFound();
-            }
-
-            _context.States.Remove(state);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool StateExists(long id)
-        {
-            return _context.States.Any(e => e.Id == id);
-        }
+        
     }
 }

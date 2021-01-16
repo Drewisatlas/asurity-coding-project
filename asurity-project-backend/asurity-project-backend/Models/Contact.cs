@@ -3,7 +3,7 @@ namespace AsurityProjectBackend.Models
 {
     public class Contact
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -11,7 +11,7 @@ namespace AsurityProjectBackend.Models
         public string City { get; set; }
         public string State { get; set; } //stores abbreviation
         public string Zipcode { get; set; }
-        public ContactFrequency ContactFrequency { get; set; }
-        public ContactMethod ContactMethod { get; set; }
+        public long ContactFrequency { get; set; }
+        public long ContactMethod { get; set; }
     }
 }

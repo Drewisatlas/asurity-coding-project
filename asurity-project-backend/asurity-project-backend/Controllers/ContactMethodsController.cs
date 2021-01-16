@@ -14,25 +14,25 @@ namespace asurityProjectBackend.Controllers
     [ApiController]
     public class ContactMethodsController : ControllerBase
     {
-        private readonly ContactMethodContext _contactMethodContext;
+        private readonly ApplicationDbContext _applicationDbContext;
 
-        public ContactMethodsController(ContactMethodContext contactMethodContext)
+        public ContactMethodsController(ApplicationDbContext applicationDbContext)
         {
-            _contactMethodContext = contactMethodContext;
+            _applicationDbContext = applicationDbContext;
         }
 
         // GET: api/ContactMethod
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ContactMethod>>> GetContactMethods()
         {
-            return await _contactMethodContext.ContactMethods.ToListAsync();
+            return await _applicationDbContext.ContactMethods.ToListAsync();
         }
 
         // GET: api/ContactMethod/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ContactMethod>> GetContactMethod(long id)
         {
-            var contactMethod = await _contactMethodContext.ContactMethods.FindAsync(id);
+            var contactMethod = await _applicationDbContext.ContactMethods.FindAsync(id);
 
             if (contactMethod == null)
             {

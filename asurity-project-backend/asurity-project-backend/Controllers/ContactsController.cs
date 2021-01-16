@@ -14,16 +14,17 @@ namespace asurityProjectBackend.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        private readonly ContactContext _contactContext;
+        private readonly ApplicationDbContext _applicationDbContext;
 
-        public ContactsController(ContactContext contactContext)
+
+        public ContactsController(ApplicationDbContext applicationDbContext)
         {
-            if (contactContext == null)
+            if (applicationDbContext == null)
             {
-                throw new ArgumentNullException("contact context");
+                throw new ArgumentNullException("Application Db Ccontext");
             }
             //maybe add logging if there is time
-            _contactContext = contactContext;
+            _applicationDbContext = applicationDbContext;
         }
 
         // GET: api/Contacts
@@ -31,7 +32,7 @@ namespace asurityProjectBackend.Controllers
         public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
         {
             //beef this up so that we return the state object based off of the abbreviation 
-            return await _contactContext.Contacts.ToListAsync();
+            return await _applicationDbContext.Contacts.ToListAsync();
         }
 
         // GET: api/Contacts/5
@@ -40,7 +41,7 @@ namespace asurityProjectBackend.Controllers
         {
 
             //beef this up so that we return the state object based off of the abbreviation 
-            var contact = await _contactContext.Contacts.FindAsync(id);
+            var contact = await _applicationDbContext.Contacts.FindAsync(id);
 
             if (contact == null)
             {
@@ -53,18 +54,18 @@ namespace asurityProjectBackend.Controllers
         // PUT: api/Contacts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContact(Guid id, Contact contact)
+        public async Task<IActionResult> PutContact(long id, Contact contact)
         {
             if (id != contact.Id)
             {
                 return BadRequest();
             }
 
-            _contactContext.Entry(contact).State = EntityState.Modified;
+            _applicationDbContext.Entry(contact).State = EntityState.Modified;
 
             try
             {
-                await _contactContext.SaveChangesAsync();
+                await _applicationDbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -86,8 +87,8 @@ namespace asurityProjectBackend.Controllers
         [HttpPost]
         public async Task<ActionResult<Contact>> PostContact(Contact contact)
         {
-            _contactContext.Contacts.Add(contact);
-            await _contactContext.SaveChangesAsync();
+            _applicationDbContext.Contacts.Add(contact);
+            await _applicationDbContext.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetContact), new { id = contact.Id }, contact);
         }
@@ -96,21 +97,21 @@ namespace asurityProjectBackend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContact(Guid id)
         {
-            var contact = await _contactContext.Contacts.FindAsync(id);
+            var contact = await _applicationDbContext.Contacts.FindAsync(id);
             if (contact == null)
             {
                 return NotFound();
             }
 
-            _contactContext.Contacts.Remove(contact);
-            await _contactContext.SaveChangesAsync();
+            _applicationDbContext.Contacts.Remove(contact);
+            await _applicationDbContext.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ContactExists(Guid id)
+        private bool ContactExists(long id)
         {
-            return _contactContext.Contacts.Any(e => e.Id == id);
+            return _applicationDbContext.Contacts.Any(e => e.Id == id);
         }
     }
 }
