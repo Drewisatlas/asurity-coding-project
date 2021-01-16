@@ -18,6 +18,11 @@ namespace asurityProjectBackend.Controllers
 
         public ContactFrequenciesController(ApplicationDbContext applicationDbContext)
         {
+            if (applicationDbContext == null)
+            {
+                throw new ArgumentNullException("Application Db Context");
+            }
+
             _applicationDbContext = applicationDbContext;
         }
 

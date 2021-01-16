@@ -21,7 +21,7 @@ namespace asurityProjectBackend.Controllers
         {
             if (applicationDbContext == null)
             {
-                throw new ArgumentNullException("Application Db Ccontext");
+                throw new ArgumentNullException("Application Db Context");
             }
             //maybe add logging if there is time
             _applicationDbContext = applicationDbContext;
