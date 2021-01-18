@@ -1,41 +1,73 @@
 import React from 'react';
+//@ts-ignore
+import {LoopCircleLoading} from 'react-loadingg'; 
 import '../styling/App.css';
-import { convertTypeAcquisitionFromJson, TypeOfTag } from 'typescript';
 import ContactGrid from './ContactGrid';
-import ContactForm from './ContactForm';
+import ContactFormNew from './ContactFormNew';
+
+const API: string = "https://localhost:5001/api/";
 
 export interface Props {}
 
 interface State {
   view : View;
-  //contacts: Contact[];
+  contacts: Contact[];
+  isLoading: boolean;
+  //error: string | null;
 }
 
-type View = 'contact grid' | 'contact form'
-//export interface Contact {
-//id: number
-//}
+type View = 'contact grid' | 'contact form' | 'edit form'
+
+export interface Contact {
+id: number,
+firstName: string,
+lastName: string,
+email: string,
+phoneNumber: string,
+streetAddress: string,
+city: string,
+state: string,
+zipcode: string,
+contactFrequency: number,
+contactMethod: number
+}
 
 class App extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props);
     this.state = { 
-      view: 'contact grid',
-      //contacts: []
+      view: 'contact form',
+      isLoading: false,
+      //error: null,
+      contacts: [],
+
     }
   }
+
+  componentDidMount () {
+    //loading
+    this.setState({isLoading: true})
+    //fetch contacts
+    fetch(API + "contacts") //can we make this a variable someplace
+    .then(response =>response.json())
+    .then(data => this.setState({contacts: data, isLoading: false}))
+  }
+
+  
   render () {
     let mainViewComponent;
-    if (this.state.view === 'contact form') {
-            mainViewComponent = <ContactForm />;
-          } else {
-            mainViewComponent =<ContactGrid />;
-          }
+    if (this.state.isLoading) {
+      mainViewComponent = <LoopCircleLoading />;
+    } else if (this.state.view === 'contact form'){
+      mainViewComponent = <ContactFormNew />;
+    } else {
+      mainViewComponent =<ContactGrid />;
+    }
 
     return (
-        <div className="App">
+        <div className="App-Container">
           <header className="App-header">
-            <span>Contacts</span>
+            <span>All Contacts</span>
             <span>New Contact</span>
           </header>
           {mainViewComponent}

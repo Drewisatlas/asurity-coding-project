@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AsurityProjectBackend.Models;
 using AsurityProjectBackend.Repository;
+using Microsoft.AspNetCore.Cors;
 
 namespace asurityProjectBackend.Controllers
 {

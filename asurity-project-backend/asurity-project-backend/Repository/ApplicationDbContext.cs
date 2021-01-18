@@ -42,6 +42,7 @@ namespace AsurityProjectBackend.Repository
                     FirstName = Faker.Name.First(),
                     LastName = Faker.Name.Last(),
                     Email = Faker.Internet.Email(),
+                    PhoneNumber = Faker.Phone.Number(),
                     StreetAddress = Faker.Address.StreetAddress(),
                     City = Faker.Address.City(),
                     State = Faker.Address.UsStateAbbr(),

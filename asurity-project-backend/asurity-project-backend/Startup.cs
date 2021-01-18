@@ -25,6 +25,14 @@ namespace AsurityProjectBackend
             //In memory Db Context
             services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("ApplicationDbContext"));
 
+            services.AddCors(options =>
+              {
+                  options.AddPolicy("CorsPolicy", builder =>
+                  {
+                      builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                  });
+              });
+
             services.AddControllers();
         }
 
@@ -39,6 +47,8 @@ namespace AsurityProjectBackend
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 

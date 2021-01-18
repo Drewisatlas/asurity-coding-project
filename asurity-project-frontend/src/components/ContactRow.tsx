@@ -1,3 +1,5 @@
+import '../styling/ContactRow.css';
+
 export interface Props {
     contact: Contact;
 }
@@ -9,11 +11,12 @@ id: number
 function ContactRow () {
 
     return (
-        <div className="contact-row">
-            <div className="first-name">firstName</div>
-            <div className="Last-name">lastName</div>
-            <div className="city">city</div>
-            <div className="state">state</div>
+        <div className="Contact-Row">
+            <div className="First-Name">firstName</div>
+            <div className="Last-Name">lastName</div>
+            <div className="City">city</div>
+            <div className="State">state</div>
+            <div className="Phone-Number">Phone Number</div>
             <button>Edit</button>
         </div>
     )

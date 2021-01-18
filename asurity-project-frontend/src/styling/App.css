@@ -1,15 +1,27 @@
-.App {
+.App-Container {
   text-align: left;
-  color: white;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 10vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  background-color: #1652f0;
+  min-height: 10vh;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-header span {
+  text-decoration: none;
+  display: block;
+  padding: 1em;
+}
+
+.App-header span:hover {
+  text-decoration: none;
+  display: block;
+  padding: 1em;
+  color: white;
+  background-color: #00c9ff;
 }

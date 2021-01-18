@@ -1,5 +1,32 @@
 .Grid-Outline {
-  border: 5px outset red;
-  background-color: lightblue;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  /* border: 5px outset red; */
+  /* background-color: lightblue; */
+  max-width: 80%;
+  margin: auto;
+}
+
+.Column-Titles {
+  display: flex;
+  flex-wrap: nowrap;
+  border-bottom: 1px solid #282c34;
+  justify-content: space-evenly;
+  text-align: left;
+  color: #909090;
+}
+
+.Column-Titles button {
+  color: #909090;
+  background-color: white;
+  border: none;
+  margin-left: 10fr;
+  display: inline-block;
+}
+
+.Column-Name {
+  flex-grow: 1;
+  margin: 10px;
 }
