@@ -99,6 +99,16 @@ class App extends React.Component<Props, State> {
     this.setState({contacts: sortedList})
   }
 
+  //add a confirmation modal if there is time
+  deleteContact = (id: number) => {
+    fetch(Constants.API + "contacts/" + id, {
+      method: 'DELETE'
+    }).then(() => {
+      let updatedContactList = this.state.contacts.filter(contact => contact.id !== id);
+      this.setState({contacts: updatedContactList});
+    })
+  }
+
   //contact population and state name population
   async getStateInfoAndContacts () {
   await fetch(Constants.API + "states")
@@ -135,7 +145,8 @@ class App extends React.Component<Props, State> {
   render () {
     let gridProps = {
       contacts: this.state.contacts,
-      sortContacts: this.sortContacts
+      sortContacts: this.sortContacts,
+      deleteContact: this.deleteContact
     };
 
     let mainViewComponent;

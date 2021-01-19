@@ -8,6 +8,7 @@ import '../styling/ContactRow.css';
 interface GridProps {
     contacts: Contact[];
     sortContacts: (dataPoint:string, sort: 'asc'|'desc') => void;
+    deleteContact: (id:number) => void;
 
 }
 interface Contact {
@@ -42,7 +43,7 @@ class ContactGrid extends React.Component<GridProps> {
                     <div className="Column-Name">State <SortButton sortContacts={this.props.sortContacts} sortBy='state' /> </div>
                     <div className="Column-Name">Phone Number<SortButton sortContacts={this.props.sortContacts} sortBy='phoneNumber' /> </div>
                 </div>
-                {contacts.map(contact => <ContactRow key={contact.id} contact={contact} />)}
+                {contacts.map(contact => <ContactRow key={contact.id} contact={contact} deleteContact={this.props.deleteContact}/>)}
             </div>
         )
     }
