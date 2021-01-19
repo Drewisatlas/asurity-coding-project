@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {MouseEvent} from 'react';
 //@ts-ignore
 import {LoopCircleLoading} from 'react-loadingg'; 
 import '../styling/App.css';
@@ -67,6 +67,39 @@ class App extends React.Component<Props, State> {
     contact.state = stateFullName!;
   }
 
+  //view handlers
+  newContactClickHandler = () => {
+    if (this.state.view != 'contact form') {
+      this.setState({view: 'contact form' });
+    }
+  } 
+
+  gridViewHandler = () => {
+    if (this.state.view != 'contact grid') {
+      this.setState({view: 'contact grid'});
+    }
+  } 
+
+  editContactHandler = () => {
+    if (this.state.view != 'edit form') {
+      this.setState({view: 'edit form'});
+    }
+  } 
+
+ //not sure how to get around this TypeScript Index Signature issue, need to investigate further
+  sortContacts = (dataPoint:string, sort: 'asc'|'desc') => {
+    let sortedList: Contact[] = [...this.state.contacts];
+    if ( sort === 'asc') {
+      //@ts-ignore
+      sortedList.sort((a,b) => a[dataPoint] > b[dataPoint] ? 1 : b[dataPoint] > a[dataPoint] ? -1 : 0);
+    } else {
+      //@ts-ignore
+      sortedList.sort((a,b) => a[dataPoint] < b[dataPoint] ? 1 : b[dataPoint] < a[dataPoint] ? -1 : 0);
+    }
+    this.setState({contacts: sortedList})
+  }
+
+  //contact population and state name population
   async getStateInfoAndContacts () {
   await fetch(Constants.API + "states")
     .then(response => response.json())
@@ -85,8 +118,8 @@ class App extends React.Component<Props, State> {
   async componentDidMount () {
     //loading
     this.setState({isLoading: true})
-    //fetch dropdown selection data
 
+    //fetch dropdown selection data
     fetch(Constants.API + "contactMethods")
     .then(response => response.json())
     .then(data => this.setState({contactMethods: data}));
@@ -95,13 +128,18 @@ class App extends React.Component<Props, State> {
     .then(response => response.json())
     .then(data => this.setState({contactFrequencies: data}));
 
-    //fetch contacts
+    //fetch contacts and US states
     this.getStateInfoAndContacts();
   }
-  
+
   render () {
-    let gridProps = {contacts: this.state.contacts};
+    let gridProps = {
+      contacts: this.state.contacts,
+      sortContacts: this.sortContacts
+    };
+
     let mainViewComponent;
+
     if (this.state.isLoading) {
       mainViewComponent = <LoopCircleLoading />;
     } else if (this.state.view === 'contact form'){
@@ -112,8 +150,8 @@ class App extends React.Component<Props, State> {
     return (
         <div className="App-Container">
           <header className="App-header">
-            <span>All Contacts</span>
-            <span>New Contact</span>
+            <span onClick={this.gridViewHandler}>All Contacts</span>
+            <span onClick={this.newContactClickHandler} >New Contact</span>
           </header>
           {mainViewComponent}
         </div>

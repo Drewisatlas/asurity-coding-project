@@ -7,6 +7,8 @@ import '../styling/ContactRow.css';
 
 interface GridProps {
     contacts: Contact[];
+    sortContacts: (dataPoint:string, sort: 'asc'|'desc') => void;
+
 }
 interface Contact {
 id: number,
@@ -22,10 +24,6 @@ contactFrequency: number,
 contactMethod: number
 }
 
-//type Contact = Readonly<{
-//id: number
-//}>
-
 class ContactGrid extends React.Component<GridProps> {
     constructor(props: GridProps){
         super(props);
@@ -38,13 +36,13 @@ class ContactGrid extends React.Component<GridProps> {
         return(
             <div className="Grid-Outline">
                 <div className="Column-Titles">
-                    <div className="Column-Name">First Name <SortButton /> </div>
-                    <div className="Column-Name">Last Name <SortButton /> </div>
-                    <div className="Column-Name">City <SortButton /> </div>
-                    <div className="Column-Name">State <SortButton /> </div>
-                    <div className="Column-Name">Phone Number</div>
+                    <div className="Column-Name">First Name <SortButton sortContacts={this.props.sortContacts} sortBy='firstName' /> </div>
+                    <div className="Column-Name">Last Name <SortButton sortContacts={this.props.sortContacts} sortBy='lastName' /> </div>
+                    <div className="Column-Name">City <SortButton sortContacts={this.props.sortContacts} sortBy='city' /> </div>
+                    <div className="Column-Name">State <SortButton sortContacts={this.props.sortContacts} sortBy='state' /> </div>
+                    <div className="Column-Name">Phone Number<SortButton sortContacts={this.props.sortContacts} sortBy='phoneNumber' /> </div>
                 </div>
-                {contacts.map(contact => <ContactRow key={contact.id} contact={contact}/>)}
+                {contacts.map(contact => <ContactRow key={contact.id} contact={contact} />)}
             </div>
         )
     }

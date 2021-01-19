@@ -1,5 +1,4 @@
-import { Row, Col } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 import '../styling/ContactRow.css';
 
 interface RowProps {
@@ -30,7 +29,8 @@ const ContactRow: React.FC<RowProps> = (props) => {
             <div className="State">{props.contact.state}</div>
             <div className="Phone-Number">{props.contact.phoneNumber}</div>
             <div className="button-container">
-                <button>Edit</button>
+                <Button variant="light" className="mr-1">Edit</Button>
+                <Button variant="danger">Delete</Button>
             </div>
         </div>
     )
