@@ -1,41 +1,11 @@
 .Contact-Row {
-  /*   display: grid;
-  grid-template-columns: 20px 20px 20px 20px 10px 10px; */
-  display: flex;
-  flex-wrap: nowrap;
+  display: grid;
+  grid-template-columns: 20% 20% 20% 10% 20% 10%;
+  /* display: flex; */
+  /* flex-wrap: nowrap; */
   border-bottom: 1px solid #282c34;
 }
 
 .Contact-Row div {
   margin: 10px;
-}
-
-.First-Name {
-  flex-grow: 1;
-  /*   grid-column-start: 1;
-  grid-column-end: 2; */
-}
-
-.Last-Name {
-  flex-grow: 1;
-  /* grid-column-start: 2;
-  grid-column-end: 3; */
-}
-
-.City {
-  flex-grow: 1;
-  /* grid-column-start: 3;
-  grid-column-end: 4; */
-}
-
-.State {
-  flex-grow: 1;
-  /* grid-column-start: 4;
-  grid-column-end: 5; */
-}
-
-.Phone-Number {
-  flex-grow: 1;
-  /* grid-column-start: 4;
-  grid-column-end: 5; */
 }

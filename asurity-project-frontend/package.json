@@ -12,6 +12,7 @@
     "@types/react-dom": "^16.9.10",
     "formik": "^2.2.6",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.4.3",
     "react-dom": "^17.0.1",
     "react-loading": "^2.0.3",
     "react-loadingg": "^1.7.2",
