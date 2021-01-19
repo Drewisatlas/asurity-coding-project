@@ -37,7 +37,7 @@ contactMethod: number
 export interface UsState {
   id: number,
   fullName: string,
-  Abbreviation: string
+  abbreviation: string
 }
 export interface ContactMethod {
   id: number,
@@ -62,13 +62,30 @@ class App extends React.Component<Props, State> {
     };
   }
 
-  componentDidMount () {
+  updateStateName (contact: Contact): void {
+    let stateFullName = this.state.stateSelections.find((stateData:UsState) => stateData.abbreviation === contact.state)?.fullName;
+    contact.state = stateFullName!;
+  }
+
+  async getStateInfoAndContacts () {
+  await fetch(Constants.API + "states")
+    .then(response => response.json())
+    .then(data => this.setState({stateSelections: data}));
+
+  await fetch(Constants.API + "contacts")
+    .then(response =>response.json())
+    .then(contacts => {
+      contacts.forEach((contact: Contact) => {
+        this.updateStateName(contact);
+      });
+      this.setState({contacts: contacts, isLoading: false})
+    });
+  }
+
+  async componentDidMount () {
     //loading
     this.setState({isLoading: true})
     //fetch dropdown selection data
-    fetch(Constants.API + "states")
-    .then(response => response.json())
-    .then(data => this.setState({stateSelections: data}));
 
     fetch(Constants.API + "contactMethods")
     .then(response => response.json())
@@ -79,11 +96,8 @@ class App extends React.Component<Props, State> {
     .then(data => this.setState({contactFrequencies: data}));
 
     //fetch contacts
-    fetch(Constants.API + "contacts") //can we make this a variable someplace
-    .then(response =>response.json())
-    .then(data => this.setState({contacts: data, isLoading: false}));
+    this.getStateInfoAndContacts();
   }
-
   
   render () {
     let gridProps = {contacts: this.state.contacts};
