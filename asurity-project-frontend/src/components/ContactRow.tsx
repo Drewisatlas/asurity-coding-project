@@ -1,5 +1,5 @@
 import Button from 'react-bootstrap/Button';
-import {Contact} from '../Interfaces'
+import {Contact} from '../Interfaces';
 import '../styling/ContactRow.css';
 
 interface RowProps {

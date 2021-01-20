@@ -1,9 +1,9 @@
 import React from 'react';
 import ContactRow from './ContactRow';
 import SortButton from './SortButton';
+import {Contact} from '../Interfaces';
 import '../styling/ContactGrid.css';
 import '../styling/ContactRow.css';
-import {Contact} from '../Interfaces';
 
 interface GridProps {
     contacts: Contact[];
@@ -12,7 +12,6 @@ interface GridProps {
     editContactHandler: (contact: Contact) => void;
 }
 class ContactGrid extends React.Component<GridProps> {
-    
     render () {
         const contacts = this.props.contacts;
 
