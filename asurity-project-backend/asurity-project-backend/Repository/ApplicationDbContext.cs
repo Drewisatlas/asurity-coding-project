@@ -1,8 +1,7 @@
-﻿using AsurityProjectBackend.Models;
-using Microsoft.EntityFrameworkCore;
-using Faker;
-using System;
+﻿using System;
 using asurityProjectBackend.Repository;
+using AsurityProjectBackend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AsurityProjectBackend.Repository
 {

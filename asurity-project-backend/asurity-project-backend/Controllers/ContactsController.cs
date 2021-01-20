@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using AsurityProjectBackend.Models;
 using AsurityProjectBackend.Repository;
-using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace asurityProjectBackend.Controllers
 {
@@ -16,7 +14,6 @@ namespace asurityProjectBackend.Controllers
     public class ContactsController : ControllerBase
     {
         private readonly ApplicationDbContext _applicationDbContext;
-
 
         public ContactsController(ApplicationDbContext applicationDbContext)
         {
@@ -32,16 +29,13 @@ namespace asurityProjectBackend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
         {
-            //beef this up so that we return the state object based off of the abbreviation 
             return await _applicationDbContext.Contacts.ToListAsync();
         }
 
         // GET: api/Contacts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Contact>> GetContact(Guid id)
+        public async Task<ActionResult<Contact>> GetContact(long id)
         {
-
-            //beef this up so that we return the state object based off of the abbreviation 
             var contact = await _applicationDbContext.Contacts.FindAsync(id);
 
             if (contact == null)
@@ -54,7 +48,7 @@ namespace asurityProjectBackend.Controllers
 
         // PUT: api/Contacts/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContact(long id, Contact contact)
+        public async Task<ActionResult<Contact>> PutContact(long id, Contact contact)
         {
             if (id != contact.Id)
             {
@@ -79,7 +73,7 @@ namespace asurityProjectBackend.Controllers
                 }
             }
 
-            return NoContent();
+            return contact;
         }
 
         // POST: api/Contacts
@@ -94,7 +88,7 @@ namespace asurityProjectBackend.Controllers
 
         // DELETE: api/Contacts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteContact(Guid id)
+        public async Task<IActionResult> DeleteContact(long id)
         {
             var contact = await _applicationDbContext.Contacts.FindAsync(id);
             if (contact == null)
