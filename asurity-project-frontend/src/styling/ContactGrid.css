@@ -1,0 +1,29 @@
+.Grid-Outline {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  max-width: 80%;
+  margin: auto;
+}
+
+.Column-Titles {
+  display: grid;
+  grid-template-columns: 18% 18% 20% 14% 20% 10%;
+  border-bottom: 1px solid #909090;
+  justify-content: space-evenly;
+  text-align: left;
+  color: #909090;
+}
+
+.Column-Titles button {
+  color: #909090;
+  background-color: #ffffff;
+  border: none;
+  margin-left: 10fr;
+  display: inline-block;
+}
+
+.Column-Name {
+  margin: 10px;
+}

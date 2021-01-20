@@ -1,0 +1,30 @@
+.App-Container {
+  text-align: left;
+}
+
+.App-header {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  background-color: #1652f0;
+  min-height: 5vh;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-header div {
+  text-decoration: none;
+  display: block;
+  padding: 1em;
+  margin-right: 10%;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.App-header div:hover {
+  text-decoration: none;
+  display: block;
+  padding: 1em;
+  color: white;
+  background-color: #00c9ff;
+}

@@ -1,8 +1,7 @@
-﻿using AsurityProjectBackend.Models;
-using Microsoft.EntityFrameworkCore;
-using Faker;
-using System;
+﻿using System;
 using asurityProjectBackend.Repository;
+using AsurityProjectBackend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AsurityProjectBackend.Repository
 {
@@ -42,6 +41,7 @@ namespace AsurityProjectBackend.Repository
                     FirstName = Faker.Name.First(),
                     LastName = Faker.Name.Last(),
                     Email = Faker.Internet.Email(),
+                    PhoneNumber = Faker.Phone.Number(),
                     StreetAddress = Faker.Address.StreetAddress(),
                     City = Faker.Address.City(),
                     State = Faker.Address.UsStateAbbr(),
