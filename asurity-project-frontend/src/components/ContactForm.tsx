@@ -128,8 +128,11 @@ class ContactForm extends React.Component<FormProps> {
                 }}
             > 
                 {formik => (
-                    <Form>
-                        {title}
+                    <Form className = "Contact-Form-View">
+                        <div className="Title-Container">
+                            {title}
+                        </div>
+                        <div className="Contact-Form-Container">
                         <div className="Form-Group">
                             <TextInput
                                 name="firstName"
@@ -157,17 +160,20 @@ class ContactForm extends React.Component<FormProps> {
                                 type="text"
                                 placeholder="City"
                             />
-
-                            <Field as="select" id="state" name="state">
-                                <option value="">State</option>
-                                {this.props.stateSelections.map(e => <option key={e.id} value={e.fullName}>{e.fullName}</option>)}
-                            </Field>
-                            <ErrorMessage name ="state" />
-
+                            <div className ="Input-Container">
+                                {formik.touched.state && formik.errors.state ? (
+                                    <div className="Error-Message">{formik.errors.state}</div>
+                                ) : null}
+                                <Field as="select" id="state" name="state" className="Select-Input">
+                                    <option value="">State</option>
+                                    {this.props.stateSelections.map(e => <option key={e.id} value={e.fullName}>{e.fullName}</option>)}
+                                </Field>
+                            </div>
                             <TextInput
                                 name="zipcode"
                                 type="text"
                                 placeholder="Zipcode"
+                                className="Text-Input"
                             />
                         </div>
 
@@ -176,28 +182,41 @@ class ContactForm extends React.Component<FormProps> {
                                 name="phoneNumber"
                                 type="phoneNumber"
                                 placeholder="Phone Number"
+                                className="Text-Input"
                             />
                             <TextInput
                                 name="email"
                                 type="email"
                                 placeholder="E-mail"
+                                className="Text-Input"
                             />
                         </div>
 
                         <div className="Form-Group">
-                            <Field type="number" as="select" id="contactFrequency" name="contactFrequency" >
-                                <option value="">Contact Frequency</option>
-                                {this.props.contactFrequencies.map(e => <option key={e.id} value={e.id}>{e.frequency}</option>)}
-                            </Field>
-                            <ErrorMessage name ="contactFrequency" />
-                            <Field type="number" as="select" id="contactMethod" name="contactMethod" >
-                                <option value="">Preferred Contact Method</option>
-                                {this.props.contactMethods.map(e => <option key={e.id} value={e.id}>{e.method}</option>)}
-                            </Field>
-                            <ErrorMessage name ="contactMethod" />
+                            <div className ="Input-Container">
+                                {formik.touched.contactFrequency && formik.errors.contactFrequency ? (
+                                    <div className="Error-Message">{formik.errors.contactFrequency}</div>
+                                ) : null}
+                                <Field type="number" as="select" id="contactFrequency" name="contactFrequency" className="Select-Input">
+                                    <option value="">Contact Frequency</option>
+                                    {this.props.contactFrequencies.map(e => <option key={e.id} value={e.id}>{e.frequency}</option>)}
+                                </Field>
+                            </div>
+                            <div className ="Input-Container">
+                                {formik.touched.contactMethod && formik.errors.contactMethod ? (
+                                    <div className="Error-Message">{formik.errors.contactMethod}</div>
+                                ) : null}
+                                <Field type="number" as="select" id="contactMethod" name="contactMethod" className="Select-Input" >
+                                    <option value="">Preferred Contact Method</option>
+                                    {this.props.contactMethods.map(e => <option key={e.id} value={e.id}>{e.method}</option>)}
+                                </Field>
+                            </div>
                         </div>
 
-                        <button type="submit">Submit</button>
+                        <div className="Button-Container">
+                        <button type="submit" className="submit-button">Submit</button>
+                        </div>
+                        </div>
                     </Form>
                 )}
             </Formik>

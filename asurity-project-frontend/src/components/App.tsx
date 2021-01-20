@@ -20,7 +20,7 @@ interface State {
   existingContact: Contact| null;
 }
 
-type View = 'contact grid' | 'contact form' | 'edit form'
+type View = 'contact grid' | 'contact form'
 
 class App extends React.Component<Props, State> {
   constructor (props: Props) {
@@ -179,13 +179,13 @@ class App extends React.Component<Props, State> {
 
     if (this.state.isLoading) {
       mainViewComponent = <LoopCircleLoading />;
-      headerButton = <span onClick={this.newContactClickHandler} >New Contact</span>
+      headerButton = <div onClick={this.newContactClickHandler} >New Contact</div>
     } else if (this.state.view === 'contact form'){
       mainViewComponent = <ContactForm {...contactFormProps} />;
-      headerButton = <span onClick={this.gridViewHandler}>All Contacts</span>
+      headerButton = <div onClick={this.gridViewHandler}>All Contacts</div>
     } else {
       mainViewComponent = <ContactGrid {...gridProps}/>;
-      headerButton = <span onClick={this.newContactClickHandler} >New Contact</span>
+      headerButton = <div onClick={this.newContactClickHandler} >New Contact</div>
     }
 
     return (

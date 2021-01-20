@@ -1,4 +1,5 @@
 import {useField, FieldHookConfig } from 'formik';
+import '../../styling/TextInput.css';
 
 const TextInput = (props: FieldHookConfig<string>) => {
    // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -7,8 +8,10 @@ const TextInput = (props: FieldHookConfig<string>) => {
    const [field, meta] = useField(props);
    return (
      <>
-       <input {...field} type= {props.type} className={props.className} placeholder={props.placeholder} />
-       {meta.touched && meta.error ? (<div className="error">{meta.error}</div>) : null}
+      <div className ="Input-Container">
+        {meta.touched && meta.error ? (<div className="Error-Message">{meta.error}</div>) : null}
+       <input {...field} type= {props.type} className="Text-Input" placeholder={props.placeholder} />
+       </div>
      </>
    );
  };

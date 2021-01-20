@@ -1,4 +1,3 @@
-import Button from 'react-bootstrap/Button';
 import {Contact} from '../Interfaces';
 import '../styling/ContactRow.css';
 
@@ -20,8 +19,8 @@ const ContactRow: React.FC<RowProps> = (props) => {
             <div className="State">{props.contact.state}</div>
             <div className="Phone-Number">{props.contact.phoneNumber}</div>
             <div className="button-container">
-                <Button onClick={editContactCallback}>Edit</Button>
-                <Button onClick={deleteCallback}>Delete</Button>
+                <button className="edit-button" onClick={editContactCallback}>Edit</button>
+                <button className="delete-button" onClick={deleteCallback}>Delete</button>
             </div>
         </div>
     )
