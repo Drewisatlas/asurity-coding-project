@@ -86,7 +86,7 @@ class App extends React.Component<Props, State> {
   }
 
   //not sure how to get around this TypeScript Index Signature issue, need to investigate further
-  sortContacts = (dataPoint:string, sort: 'asc'|'desc') => {
+  sortContacts = (dataPoint:string, sort: 'asc'|'desc'): void => {
     let sortedList: Contact[] = [...this.state.contacts];
     if ( sort === 'asc') {
       //@ts-ignore
