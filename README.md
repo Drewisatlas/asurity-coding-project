@@ -2,16 +2,16 @@
 
 ## Running the application
 ### Starting the backend
-1.) Navigate in the the "asurity-project-backend" folder
-2.) Click on the "asurity-project-backend.sln" to open the solution in visual studio
-3.) Click the "run" button while in debug mode.
-4.) The application's backend should now be running on localhost:5001. A window should open for "https://localhost:5001/api/Contacts".
+- Navigate in the the "asurity-project-backend" folder
+- Click on the "asurity-project-backend.sln" to open the solution in visual studio
+- Click the "run" button while in debug mode.
+- The application's backend should now be running on localhost:5001. A window should open for "https://localhost:5001/api/Contacts".
 
 ### Starting the frontend
-1.) inside your command terminal navigate into the "asurity-project-frontend"
-2.) Run "npm install" to Install the project's dependencies
-3.) Run the project with "npm start"
-4.) A window should open to "https://localhost:3000"
+- inside your command terminal navigate into the "asurity-project-frontend"
+- Run "npm install" to Install the project's dependencies
+- Run the project with "npm start"
+- A window should open to "https://localhost:3000"
 
 The app is now ready for use!
 
