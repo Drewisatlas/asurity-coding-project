@@ -1,6 +1,8 @@
 # asurity-coding-project
 
 ## Running the application
+- Clone the application to your computer
+
 ### Starting the backend
 - Navigate in the the "asurity-project-backend" folder
 - Click on the "asurity-project-backend.sln" to open the solution in visual studio
