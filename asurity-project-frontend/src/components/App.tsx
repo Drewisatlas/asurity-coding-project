@@ -1,10 +1,11 @@
-import React, {MouseEvent} from 'react';
+import React from 'react';
 //@ts-ignore
 import {LoopCircleLoading} from 'react-loadingg'; 
 import '../styling/App.css';
 import ContactGrid from './ContactGrid';
 import ContactFormNew from './ContactFormNew';
-import * as Constants from '../Constants';
+import {API} from '../Constants';
+import {Contact, NewContact, UsState, ContactMethod, ContactFrequency}from '../Interfaces';
 
 
 export interface Props {}
@@ -16,38 +17,10 @@ interface State {
   stateSelections: UsState[];
   contactMethods: ContactMethod[];
   contactFrequencies: ContactFrequency[];
-  //error: string | null;
+  existingContact: Contact| null;
 }
 
 type View = 'contact grid' | 'contact form' | 'edit form'
-
-export interface Contact {
-id: number,
-firstName: string,
-lastName: string,
-email: string,
-phoneNumber: string,
-streetAddress: string,
-city: string,
-state: string,
-zipcode: string,
-contactFrequency: number,
-contactMethod: number
-}
-export interface UsState {
-  id: number,
-  fullName: string,
-  abbreviation: string
-}
-export interface ContactMethod {
-  id: number,
-  method: string
-}
-
-export interface ContactFrequency {
-  id: number,
-  frequency: string
-}
 class App extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props);
@@ -58,31 +31,40 @@ class App extends React.Component<Props, State> {
       contacts: [],
       stateSelections: [],
       contactMethods: [],
-      contactFrequencies: []
+      contactFrequencies: [],
+      existingContact: null
     };
   }
 
-  updateStateName (contact: Contact): void {
-    let stateFullName = this.state.stateSelections.find((stateData:UsState) => stateData.abbreviation === contact.state)?.fullName;
-    contact.state = stateFullName!;
+  updateStateName (contact: Contact|NewContact, style: 'abbreviation'|'fullName'): void {
+    let stateName: string|undefined;
+
+    if (style === 'abbreviation') {
+      stateName = this.state.stateSelections.find((stateData:UsState) => stateData.abbreviation === contact.state)?.fullName;
+    }
+    if (style === 'fullName') {
+      stateName = this.state.stateSelections.find((stateData:UsState) => stateData.fullName === contact.state)?.abbreviation;
+    }
+    
+    contact.state = stateName!;
   }
 
   //view handlers
-  newContactClickHandler = () => {
-    if (this.state.view != 'contact form') {
-      this.setState({view: 'contact form' });
+  newContactClickHandler = (): void => {
+    if (this.state.view !== 'contact form' || this.state.existingContact != null ) {
+      this.setState({view: 'contact form', existingContact: null});
     }
   } 
 
-  gridViewHandler = () => {
-    if (this.state.view != 'contact grid') {
+  gridViewHandler = (): void => {
+    if (this.state.view !== 'contact grid') {
       this.setState({view: 'contact grid'});
     }
   } 
 
-  editContactHandler = () => {
-    if (this.state.view != 'edit form') {
-      this.setState({view: 'edit form'});
+  editContactHandler = (contact: Contact): void => {
+    if (this.state.view !== 'contact form') {
+      this.setState({view: 'contact form', existingContact: contact});
     }
   } 
 
@@ -99,9 +81,8 @@ class App extends React.Component<Props, State> {
     this.setState({contacts: sortedList})
   }
 
-  //add a confirmation modal if there is time
-  deleteContact = (id: number) => {
-    fetch(Constants.API + "contacts/" + id, {
+  deleteContact = (id: number): void => {
+    fetch(API + 'contacts/' + id, {
       method: 'DELETE'
     }).then(() => {
       let updatedContactList = this.state.contacts.filter(contact => contact.id !== id);
@@ -109,17 +90,50 @@ class App extends React.Component<Props, State> {
     })
   }
 
+  editContact = (contact: Contact): void => {
+    this.updateStateName(contact, 'fullName');
+
+    fetch(API + 'contacts/' + contact.id, {
+      method: 'PUT',
+      body: JSON.stringify(contact),
+      headers: { 'Content-Type': 'application/json' }
+    }).then(response => response.json())
+    .then(contact => {
+      let newState = [...this.state.contacts];
+      this.updateStateName(contact, 'abbreviation');
+      let contactIndex = newState.findIndex(e => e.id === contact.id);
+      newState[contactIndex] = contact;
+      this.setState({contacts: newState})
+    })
+  }
+
+  addContact = (contact: NewContact): void => {
+    this.updateStateName(contact, 'fullName');
+
+    fetch(API + 'contacts', {
+      method: 'POST',
+      body: JSON.stringify(contact),
+      headers: { 'Content-Type': 'application/json' }
+    }).then(response => response.json())
+    .then(contact => {
+      let newState = [...this.state.contacts];
+      this.updateStateName(contact, 'abbreviation');
+      newState.push(contact);
+      this.setState({contacts: newState })
+    })
+  }
+
   //contact population and state name population
   async getStateInfoAndContacts () {
-  await fetch(Constants.API + "states")
+  await fetch(API + "states")
     .then(response => response.json())
     .then(data => this.setState({stateSelections: data}));
 
-  await fetch(Constants.API + "contacts")
+  await fetch(API + "contacts")
     .then(response =>response.json())
     .then(contacts => {
       contacts.forEach((contact: Contact) => {
-        this.updateStateName(contact);
+        this.updateStateName(contact, 'abbreviation');
       });
       this.setState({contacts: contacts, isLoading: false})
     });
@@ -130,11 +144,11 @@ class App extends React.Component<Props, State> {
     this.setState({isLoading: true})
 
     //fetch dropdown selection data
-    fetch(Constants.API + "contactMethods")
+    fetch(API + "contactMethods")
     .then(response => response.json())
     .then(data => this.setState({contactMethods: data}));
 
-    fetch(Constants.API + "contactFrequencies")
+    fetch(API + "contactFrequencies")
     .then(response => response.json())
     .then(data => this.setState({contactFrequencies: data}));
 
@@ -146,23 +160,38 @@ class App extends React.Component<Props, State> {
     let gridProps = {
       contacts: this.state.contacts,
       sortContacts: this.sortContacts,
-      deleteContact: this.deleteContact
+      deleteContact: this.deleteContact,
+      editContactHandler: this.editContactHandler
     };
 
+    let contactFormProps = {
+      stateSelections: this.state.stateSelections,
+      contactMethods: this.state.contactMethods,
+      contactFrequencies: this.state.contactFrequencies,
+      existingContact: this.state.existingContact,
+      gridViewHandler: this.gridViewHandler,
+      addContact: this.addContact,
+      editContact: this.editContact
+    }
+
     let mainViewComponent;
+    let headerButton;
 
     if (this.state.isLoading) {
       mainViewComponent = <LoopCircleLoading />;
+      headerButton = <span onClick={this.newContactClickHandler} >New Contact</span>
     } else if (this.state.view === 'contact form'){
-      mainViewComponent = <ContactFormNew />;
+      mainViewComponent = <ContactFormNew {...contactFormProps} />;
+      headerButton = <span onClick={this.gridViewHandler}>All Contacts</span>
     } else {
       mainViewComponent = <ContactGrid {...gridProps}/>;
+      headerButton = <span onClick={this.newContactClickHandler} >New Contact</span>
     }
+
     return (
         <div className="App-Container">
           <header className="App-header">
-            <span onClick={this.gridViewHandler}>All Contacts</span>
-            <span onClick={this.newContactClickHandler} >New Contact</span>
+            {headerButton}
           </header>
           {mainViewComponent}
         </div>

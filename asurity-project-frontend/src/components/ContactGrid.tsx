@@ -3,33 +3,15 @@ import ContactRow from './ContactRow';
 import SortButton from './SortButton';
 import '../styling/ContactGrid.css';
 import '../styling/ContactRow.css';
-//import Contact from './App';
+import {Contact} from '../Interfaces';
 
 interface GridProps {
     contacts: Contact[];
-    sortContacts: (dataPoint:string, sort: 'asc'|'desc') => void;
-    deleteContact: (id:number) => void;
-
+    sortContacts: (dataPoint: string, sort: 'asc'|'desc') => void;
+    deleteContact: (id: number) => void;
+    editContactHandler: (contact: Contact) => void;
 }
-interface Contact {
-id: number,
-firstName: string,
-lastName: string,
-email: string,
-phoneNumber: string,
-streetAddress: string,
-city: string,
-state: string,
-zipcode: string,
-contactFrequency: number,
-contactMethod: number
-}
-
 class ContactGrid extends React.Component<GridProps> {
-    constructor(props: GridProps){
-        super(props);
-    }
-
     
     render () {
         const contacts = this.props.contacts;
@@ -43,11 +25,15 @@ class ContactGrid extends React.Component<GridProps> {
                     <div className="Column-Name">State <SortButton sortContacts={this.props.sortContacts} sortBy='state' /> </div>
                     <div className="Column-Name">Phone Number<SortButton sortContacts={this.props.sortContacts} sortBy='phoneNumber' /> </div>
                 </div>
-                {contacts.map(contact => <ContactRow key={contact.id} contact={contact} deleteContact={this.props.deleteContact}/>)}
+                {contacts.map(contact => <ContactRow 
+                    key={contact.id} 
+                    contact={contact} 
+                    deleteContact={this.props.deleteContact}
+                    editContactHandler={this.props.editContactHandler}
+                />)}
             </div>
         )
-    }
-    
+    }  
 }
 
 export default ContactGrid;

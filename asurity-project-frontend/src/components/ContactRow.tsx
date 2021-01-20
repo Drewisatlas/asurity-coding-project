@@ -1,27 +1,17 @@
 import Button from 'react-bootstrap/Button';
+import {Contact} from '../Interfaces'
 import '../styling/ContactRow.css';
 
 interface RowProps {
     contact: Contact;
     deleteContact: (id: number) => void;
-}
-
-interface Contact {
-id: number,
-firstName: string,
-lastName: string,
-email: string,
-phoneNumber: string,
-streetAddress: string,
-city: string,
-state: string,
-zipcode: string,
-contactFrequency: number,
-contactMethod: number
+    editContactHandler: (contact: Contact) => void;
 }
 
 const ContactRow: React.FC<RowProps> = (props) => {
     let deleteCallback = () => props.deleteContact(props.contact.id);
+    let editContactCallback = () => props.editContactHandler(props.contact);
+
     return (
         <div className="Contact-Row">
             <div className="Column-Name First-Name">{props.contact.firstName}</div>
@@ -30,8 +20,8 @@ const ContactRow: React.FC<RowProps> = (props) => {
             <div className="State">{props.contact.state}</div>
             <div className="Phone-Number">{props.contact.phoneNumber}</div>
             <div className="button-container">
-                <Button variant="light" className="mr-1">Edit</Button>
-                <Button variant="danger" onClick={deleteCallback}>Delete</Button>
+                <Button onClick={editContactCallback}>Edit</Button>
+                <Button onClick={deleteCallback}>Delete</Button>
             </div>
         </div>
     )
